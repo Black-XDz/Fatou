@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chez Fatou — Restaurant de Plage à Dakar | Vue sur l'Océan</title>
+  <meta name="description" content="Chez Fatou, restaurant de plage à Dakar. Vue panoramique sur l'océan, cuisine halale, terrasse extérieure. Ouvert du petit-déjeuner au dîner. ★ 4.0/5 · 2239 avis Google." />
+  <meta property="og:title" content="Chez Fatou — Restaurant de Plage à Dakar" />
+  <meta property="og:description" content="Vue exceptionnelle sur l'océan, cuisine halale, terrasse. ★ 4.0/5 sur 2239 avis." />
+  <meta property="og:type" content="restaurant" />
+  <meta property="og:locale" content="fr_SN" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ocean:   #1a4d6e;
+      --sky:     #2e7da6;
+      --foam:    #e8f4f8;
+      --sand:    #d4b896;
+      --dune:    #c4a882;
+      --beige:   #f5ede0;
+      --wood:    #8b6444;
+      --palm:    #3a6b4a;
+      --white:   #fdfcfb;
+      --ink:     #1c1a18;
+      --mist:    #7a8f9a;
+      --gold:    #c9973a;
+
+      --ff-display: 'Cormorant Garamond', Georgia, serif;
+      --ff-body:    'Jost', system-ui, sans-serif;
+
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: var(--ff-body);
+      background: var(--white);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--beige); }
+    ::-webkit-scrollbar-thumb { background: var(--sand); border-radius: 99px; }
+
+    /* ─── SKIP LINK ─── */
+    .skip-link {
+      position: fixed; top: -100%; left: 1rem;
+      background: var(--ocean); color: #fff;
+      padding: .5rem 1rem; border-radius: 0 0 8px 8px;
+      z-index: 9999; font-family: var(--ff-body);
+      transition: top .2s;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* ─── NAV ─── */
+    #nav {
+      position: fixed; top: 0; left: 0; width: 100%;
+      z-index: 100;
+      padding: 1.25rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background .4s var(--ease-out), padding .4s var(--ease-out), box-shadow .4s;
+    }
+    #nav.scrolled {
+      background: rgba(253,252,251,.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      padding: .75rem 2rem;
+      box-shadow: 0 2px 32px rgba(26,77,110,.08);
+    }
+    .nav-logo {
+      font-family: var(--ff-display);
+      font-size: 1.55rem;
+      font-weight: 400;
+      letter-spacing: .04em;
+      color: var(--white);
+      text-decoration: none;
+      transition: color .3s;
+    }
+    #nav.scrolled .nav-logo { color: var(--ocean); }
+
+    .nav-links {
+      display: flex; gap: 2rem; list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--ff-body);
+      font-size: .8rem;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.9);
+      text-decoration: none;
+      transition: color .3s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -3px; left: 0;
+      width: 0; height: 1px;
+      background: var(--sand);
+      transition: width .3s var(--ease-out);
+    }
+    .nav-links a:hover::after { width: 100%; }
+    #nav.scrolled .nav-links a { color: var(--ocean); }
+    #nav.scrolled .nav-links a::after { background: var(--ocean); }
+
+    .nav-cta {
+      background: var(--sand);
+      color: var(--ink) !important;
+      padding: .55rem 1.4rem;
+      border-radius: 50px;
+      transition: background .3s, transform .2s !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--dune); transform: translateY(-1px); }
+
+    /* Burger */
+    .burger {
+      display: none;
+      flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer;
+      padding: .5rem;
+    }
+    .burger span {
+      display: block; width: 24px; height: 1.5px;
+      background: var(--white);
+      transition: transform .3s, opacity .3s, background .3s;
+    }
+    #nav.scrolled .burger span { background: var(--ocean); }
+    .burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      position: fixed; inset: 0;
+      background: var(--ocean);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 2.5rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: var(--ff-display);
+      font-size: 2.2rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: .03em;
+      transition: color .3s;
+    }
+    .mobile-menu a:hover { color: var(--sand); }
+
+    /* ─── HERO ─── */
+    #hero {
+      position: relative;
+      height: 100svh; min-height: 600px;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(180deg, rgba(10,35,55,.45) 0%, rgba(10,35,55,.15) 40%, rgba(10,35,55,.6) 100%),
+        url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1800&q=80&auto=format&fit=crop') center/cover no-repeat;
+      transform: scale(1.04);
+      animation: heroZoom 14s ease-out forwards;
+    }
+    @keyframes heroZoom {
+      from { transform: scale(1.04); }
+      to   { transform: scale(1); }
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 1.6rem;
+      padding: 0 1.5rem;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(255,255,255,.12);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 50px;
+      padding: .4rem 1rem;
+      color: #fff;
+      font-size: .78rem;
+      font-weight: 400;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .hero-badge .stars { color: var(--gold); letter-spacing: .05em; }
+
+    h1.hero-title {
+      font-family: var(--ff-display);
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: .95;
+      letter-spacing: -.01em;
+    }
+    h1.hero-title em {
+      font-style: italic;
+      font-weight: 300;
+      display: block;
+    }
+
+    .hero-sub {
+      font-family: var(--ff-body);
+      font-size: clamp(.9rem, 2vw, 1.1rem);
+      font-weight: 300;
+      color: rgba(255,255,255,.82);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .hero-actions {
+      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+      margin-top: .5rem;
+    }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--sand);
+      color: var(--ink);
+      font-family: var(--ff-body);
+      font-size: .8rem;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: .85rem 2.2rem;
+      border-radius: 50px;
+      transition: background .3s, transform .25s var(--ease-out), box-shadow .3s;
+      border: none; cursor: pointer;
+    }
+    .btn-primary:hover {
+      background: var(--dune);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(196,168,130,.4);
+    }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: transparent;
+      color: var(--white);
+      font-family: var(--ff-body);
+      font-size: .8rem;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: .83rem 2.2rem;
+      border-radius: 50px;
+      border: 1px solid rgba(255,255,255,.5);
+      transition: background .3s, border-color .3s, transform .25s var(--ease-out);
+      cursor: pointer;
+    }
+    .btn-outline:hover {
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.8);
+      transform: translateY(-2px);
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      z-index: 2;
+    }
+    .scroll-hint span {
+      font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(255,255,255,.6);
+    }
+    .scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, rgba(255,255,255,.5), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { transform: scaleY(1); opacity: .6; }
+      50%       { transform: scaleY(.6); opacity: 1; }
+    }
+
+    /* ─── SECTIONS ─── */
+    section { position: relative; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .section-eyebrow {
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: var(--ff-display);
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--ocean);
+    }
+    .section-title em {
+      font-style: italic;
+    }
+
+    /* ─── ABOUT ─── */
+    #about {
+      padding: 8rem 0;
+      background: var(--white);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .about-image-wrap {
+      position: relative;
+    }
+    .about-img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      border-radius: 4px 60px 4px 60px;
+      box-shadow: 0 24px 80px rgba(26,77,110,.18);
+    }
+    .about-img-accent {
+      position: absolute;
+      bottom: -2rem; right: -2rem;
+      width: 55%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 6px solid var(--white);
+      box-shadow: 0 12px 40px rgba(26,77,110,.2);
+    }
+    .about-text { display: flex; flex-direction: column; gap: 1.5rem; }
+    .about-lead {
+      font-family: var(--ff-display);
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--ocean);
+      line-height: 1.5;
+    }
+    .about-body {
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.85;
+      color: var(--mist);
+    }
+    .about-stats {
+      display: flex; gap: 2.5rem; margin-top: .5rem;
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-family: var(--ff-display);
+      font-size: 2.4rem;
+      font-weight: 400;
+      color: var(--ocean);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: .72rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-top: .3rem;
+    }
+
+    /* ─── ATOUTS ─── */
+    #atouts {
+      padding: 8rem 0;
+      background: var(--beige);
+    }
+    .atouts-header { text-align: center; margin-bottom: 4rem; }
+    .atouts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.25rem;
+    }
+    .atout-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 1.75rem 1.5rem;
+      display: flex; flex-direction: column; gap: .75rem;
+      box-shadow: 0 4px 24px rgba(26,77,110,.06);
+      transition: transform .3s var(--ease-out), box-shadow .3s;
+      cursor: default;
+    }
+    .atout-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(26,77,110,.12);
+    }
+    .atout-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--foam), var(--beige));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+    }
+    .atout-name {
+      font-family: var(--ff-body);
+      font-size: .88rem;
+      font-weight: 500;
+      color: var(--ocean);
+    }
+
+    /* ─── EXPERIENCE ─── */
+    #experience {
+      padding: 0;
+      overflow: hidden;
+    }
+    .exp-wrapper {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 80vh;
+    }
+    .exp-visual {
+      position: relative;
+      background:
+        linear-gradient(180deg, rgba(10,35,55,.3) 0%, rgba(10,35,55,.55) 100%),
+        url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=80&auto=format&fit=crop') center/cover no-repeat;
+      display: flex; align-items: flex-end;
+      padding: 4rem;
+    }
+    .exp-visual-text {
+      color: var(--white);
+    }
+    .exp-visual-text h2 {
+      font-family: var(--ff-display);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.1;
+    }
+    .exp-visual-text h2 em { font-style: italic; }
+    .exp-visual-text p {
+      margin-top: 1rem;
+      font-size: .95rem;
+      font-weight: 300;
+      color: rgba(255,255,255,.75);
+      line-height: 1.7;
+    }
+    .exp-content {
+      background: var(--ocean);
+      padding: 5rem 4rem;
+      display: flex; flex-direction: column; justify-content: center; gap: 2.5rem;
+    }
+    .exp-content .section-eyebrow { color: var(--sand); }
+    .exp-content .section-title { color: var(--white); }
+    .exp-tags {
+      display: flex; flex-wrap: wrap; gap: .75rem;
+    }
+    .exp-tag {
+      background: rgba(255,255,255,.1);
+      color: rgba(255,255,255,.85);
+      border: 1px solid rgba(255,255,255,.2);
+      padding: .45rem 1.1rem;
+      border-radius: 50px;
+      font-size: .8rem;
+      letter-spacing: .08em;
+      transition: background .3s, border-color .3s;
+    }
+    .exp-tag:hover {
+      background: rgba(255,255,255,.18);
+      border-color: rgba(255,255,255,.45);
+    }
+    .exp-divider {
+      width: 40px; height: 1px;
+      background: rgba(255,255,255,.25);
+    }
+    .exp-clientele h3 {
+      font-family: var(--ff-display);
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--sand);
+      margin-bottom: 1rem;
+      letter-spacing: .05em;
+    }
+
+    /* ─── ACCESSIBILITY SECTION ─── */
+    #accessibility {
+      padding: 8rem 0;
+      background: var(--white);
+    }
+    .access-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .access-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 2.5rem; }
+    .access-item {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.1rem 1.4rem;
+      background: var(--foam);
+      border-radius: 14px;
+      border-left: 3px solid var(--sky);
+    }
+    .access-item-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .access-item-text { font-size: .9rem; font-weight: 400; color: var(--ocean); }
+
+    .parking-box {
+      background: linear-gradient(135deg, var(--ocean), var(--sky));
+      border-radius: 24px;
+      padding: 3rem;
+      color: var(--white);
+      margin-top: 2.5rem;
+    }
+    .parking-box h3 {
+      font-family: var(--ff-display);
+      font-size: 1.8rem;
+      font-weight: 300;
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+    .parking-items { display: flex; flex-direction: column; gap: .75rem; }
+    .parking-item {
+      display: flex; align-items: center; gap: .75rem;
+      font-size: .9rem; color: rgba(255,255,255,.88);
+    }
+    .parking-check { color: var(--sand); font-size: 1rem; }
+
+    /* ─── RESERVATIONS ─── */
+    #reservations {
+      padding: 10rem 0;
+      background:
+        linear-gradient(180deg, rgba(10,35,55,.72) 0%, rgba(10,35,55,.62) 100%),
+        url('https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1600&q=80&auto=format&fit=crop') center/cover no-repeat fixed;
+      text-align: center;
+    }
+    #reservations .section-eyebrow { color: var(--sand); }
+    #reservations .section-title { color: var(--white); margin-bottom: 1.5rem; }
+    .resa-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(255,255,255,.75);
+      max-width: 540px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+    .resa-meals {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+    .resa-meal {
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 50px;
+      padding: .5rem 1.3rem;
+      color: rgba(255,255,255,.85);
+      font-size: .8rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    /* ─── REVIEWS ─── */
+    #reviews {
+      padding: 8rem 0;
+      background: var(--beige);
+    }
+    .reviews-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+    .review-score {
+      display: flex; flex-direction: column; align-items: flex-end; gap: .25rem;
+    }
+    .review-score-num {
+      font-family: var(--ff-display);
+      font-size: 4rem;
+      font-weight: 300;
+      color: var(--ocean);
+      line-height: 1;
+    }
+    .review-stars { color: var(--gold); font-size: 1.1rem; letter-spacing: .05em; }
+    .review-count { font-size: .78rem; color: var(--mist); letter-spacing: .08em; }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .review-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 24px rgba(26,77,110,.06);
+      transition: transform .3s var(--ease-out);
+    }
+    .review-card:hover { transform: translateY(-4px); }
+    .review-card-stars { color: var(--gold); font-size: .9rem; margin-bottom: 1rem; }
+    .review-card-text {
+      font-size: .95rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink);
+      font-style: italic;
+    }
+    .review-card-author {
+      margin-top: 1.25rem;
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--mist);
+    }
+    .review-highlights {
+      display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem;
+    }
+    .review-highlight {
+      background: var(--foam);
+      border: 1px solid rgba(46,125,166,.2);
+      color: var(--sky);
+      border-radius: 50px;
+      padding: .45rem 1.2rem;
+      font-size: .8rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+    }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      padding: 8rem 0;
+      background: var(--white);
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .contact-info { display: flex; flex-direction: column; gap: 2rem; margin-top: 2.5rem; }
+    .contact-item {
+      display: flex; gap: 1.25rem; align-items: flex-start;
+    }
+    .contact-icon-wrap {
+      width: 48px; height: 48px; flex-shrink: 0;
+      background: var(--foam);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+    .contact-item-body { display: flex; flex-direction: column; gap: .2rem; }
+    .contact-item-label {
+      font-size: .7rem; font-weight: 500;
+      letter-spacing: .15em; text-transform: uppercase;
+      color: var(--mist);
+    }
+    .contact-item-value {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--ocean);
+      text-decoration: none;
+      transition: color .3s;
+    }
+    a.contact-item-value:hover { color: var(--sky); }
+
+    .map-placeholder {
+      aspect-ratio: 4/3;
+      background: var(--foam);
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 8px 40px rgba(26,77,110,.1);
+    }
+    .map-placeholder iframe {
+      width: 100%; height: 100%;
+      border: none;
+    }
+    .map-overlay {
+      position: absolute; inset: 0;
+      background:
+        url('https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&q=80&auto=format&fit=crop') center/cover no-repeat;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .map-badge {
+      background: rgba(255,255,255,.9);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 1.25rem 1.75rem;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(26,77,110,.15);
+    }
+    .map-badge-title {
+      font-family: var(--ff-display);
+      font-size: 1.3rem;
+      color: var(--ocean);
+      font-weight: 400;
+    }
+    .map-badge-addr {
+      font-size: .82rem; color: var(--mist);
+      margin-top: .25rem;
+    }
+    .map-badge-plus {
+      font-size: .72rem; color: var(--sky);
+      margin-top: .2rem; letter-spacing: .06em;
+    }
+
+    .facebook-link {
+      display: inline-flex; align-items: center; gap: .7rem;
+      margin-top: 1rem;
+      background: #1877F2;
+      color: #fff;
+      text-decoration: none;
+      padding: .7rem 1.5rem;
+      border-radius: 50px;
+      font-size: .82rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+      transition: background .3s, transform .25s var(--ease-out);
+    }
+    .facebook-link:hover { background: #0f60d1; transform: translateY(-2px); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,.65);
+      padding: 5rem 0 2.5rem;
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      flex-wrap: wrap; gap: 3rem;
+      margin-bottom: 4rem;
+    }
+    .footer-brand .footer-logo {
+      font-family: var(--ff-display);
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: .04em;
+      display: block;
+      margin-bottom: .75rem;
+    }
+    .footer-tagline {
+      font-size: .82rem;
+      font-weight: 300;
+      color: rgba(255,255,255,.45);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .footer-col h4 {
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--sand);
+      margin-bottom: 1.25rem;
+    }
+    .footer-col p, .footer-col a {
+      font-size: .88rem;
+      font-weight: 300;
+      color: rgba(255,255,255,.6);
+      text-decoration: none;
+      line-height: 1.9;
+      display: block;
+      transition: color .3s;
+    }
+    .footer-col a:hover { color: var(--sand); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-copyright {
+      font-size: .78rem;
+      font-weight: 300;
+      color: rgba(255,255,255,.35);
+      letter-spacing: .06em;
+    }
+    .footer-star { color: var(--sand); }
+
+    /* ─── BACK TO TOP ─── */
+    #back-top {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      width: 44px; height: 44px;
+      background: var(--ocean);
+      color: var(--white);
+      border: none;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      opacity: 0; transform: translateY(12px);
+      transition: opacity .3s, transform .3s;
+      z-index: 90;
+      box-shadow: 0 4px 20px rgba(26,77,110,.3);
+    }
+    #back-top.visible { opacity: 1; transform: translateY(0); }
+    #back-top:hover { background: var(--sky); }
+
+    /* ─── SCROLL ANIMATIONS ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .7s var(--ease-out), transform .7s var(--ease-out);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+    .reveal-delay-4 { transition-delay: .4s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .hero-bg { animation: none; }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .burger { display: flex; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .about-img-accent { display: none; }
+      .exp-wrapper { grid-template-columns: 1fr; }
+      .exp-visual { min-height: 320px; }
+      .exp-content { padding: 3rem 2rem; }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .reviews-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .review-score { align-items: flex-start; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .access-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .footer-inner { flex-direction: column; gap: 2rem; }
+    }
+    @media (max-width: 640px) {
+      .container { padding: 0 1.25rem; }
+      #about, #atouts, #accessibility, #reviews, #contact { padding: 5rem 0; }
+      #reservations { padding: 7rem 0; }
+      .atouts-grid { grid-template-columns: 1fr 1fr; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Aller au contenu principal</a>
+
+<!-- NAV -->
+<nav id="nav" role="navigation" aria-label="Navigation principale">
+  <a href="#hero" class="nav-logo" aria-label="Chez Fatou — Accueil">Chez Fatou</a>
+  <ul class="nav-links" role="list">
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#atouts">Services</a></li>
+    <li><a href="#experience">Ambiance</a></li>
+    <li><a href="#reviews">Avis</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="tel:+221338209238" class="nav-cta">Réserver</a></li>
+  </ul>
+  <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu principal">
+  <a href="#about" class="mobile-link">À propos</a>
+  <a href="#atouts" class="mobile-link">Services</a>
+  <a href="#experience" class="mobile-link">Ambiance</a>
+  <a href="#reviews" class="mobile-link">Avis</a>
+  <a href="#contact" class="mobile-link">Contact</a>
+  <a href="tel:+221338209238" class="mobile-link" style="color:var(--sand)">Réserver</a>
+</div>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section id="hero" aria-label="Bienvenue chez Fatou">
+    <div class="hero-bg" role="img" aria-label="Vue panoramique sur l'océan depuis la terrasse du restaurant Chez Fatou"></div>
+    <div class="hero-content">
+      <div class="hero-badge reveal">
+        <span class="stars" aria-label="4 étoiles sur 5">★★★★☆</span>
+        <span>4.0 / 5 &nbsp;·&nbsp; 2 239 avis Google</span>
+      </div>
+      <h1 class="hero-title reveal reveal-delay-1">
+        Chez<em>Fatou</em>
+      </h1>
+      <p class="hero-sub reveal reveal-delay-2">Restaurant de plage &nbsp;·&nbsp; Dakar, Sénégal</p>
+      <div class="hero-actions reveal reveal-delay-3">
+        <a href="tel:+221338209238" class="btn-primary">
+          <span>📞</span> Nous appeler
+        </a>
+        <a href="#reservations" class="btn-outline">
+          Réserver une table
+        </a>
+      </div>
+    </div>
+    <div class="scroll-hint" aria-hidden="true">
+      <span>Découvrir</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" aria-labelledby="about-title">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image-wrap reveal">
+          <img
+            class="about-img"
+            src="https://images.unsplash.com/photo-1544148103-0773bf10d330?w=900&q=80&auto=format&fit=crop"
+            alt="Terrasse extérieure de Chez Fatou avec vue sur l'océan à Dakar"
+            loading="lazy"
+            width="900" height="1125"
+          />
+          <img
+            class="about-img-accent"
+            src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80&auto=format&fit=crop"
+            alt="Plat de spécialités sénégalaises servi chez Fatou"
+            loading="lazy"
+            width="400" height="400"
+          />
+        </div>
+        <div class="about-text">
+          <p class="section-eyebrow reveal">Notre histoire</p>
+          <h2 class="section-title reveal reveal-delay-1" id="about-title">
+            L'océan comme<em>horizon de table</em>
+          </h2>
+          <p class="about-lead reveal reveal-delay-2">
+            À Dakar, face à l'Atlantique, Chez Fatou vous accueille dans un cadre d'exception où le bleu de l'eau se confond avec celui du ciel.
+          </p>
+          <p class="about-body reveal reveal-delay-3">
+            Restaurant de plage par essence, Chez Fatou offre une vue panoramique à couper le souffle sur l'océan. Qu'il s'agisse d'un brunch en famille au soleil levant, d'un déjeuner romantique ou d'un dîner sous les étoiles, chaque moment ici devient un souvenir inoubliable. La célèbre Téranga sénégalaise se ressent dans chaque détail de notre accueil.
+          </p>
+          <div class="about-stats reveal reveal-delay-4">
+            <div class="stat-item">
+              <div class="stat-num">4.0</div>
+              <div class="stat-label">Note Google</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">2 239</div>
+              <div class="stat-label">Avis clients</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">∞</div>
+              <div class="stat-label">Vue océan</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ATOUTS -->
+  <section id="atouts" aria-labelledby="atouts-title">
+    <div class="container">
+      <div class="atouts-header">
+        <p class="section-eyebrow reveal">Ce que nous offrons</p>
+        <h2 class="section-title reveal reveal-delay-1" id="atouts-title">
+          Tout pour un moment<em>parfait</em>
+        </h2>
+      </div>
+      <div class="atouts-grid" role="list">
+
+        <div class="atout-card reveal" role="listitem">
+          <div class="atout-icon" aria-hidden="true">🌊</div>
+          <div class="atout-name">Restaurant en bord de mer</div>
+        </div>
+        <div class="atout-card reveal reveal-delay-1" role="listitem">
+          <div class="atout-icon" aria-hidden="true">🪑</div>
+          <div class="atout-name">Terrasse extérieure</div>
+        </div>
+        <div class="atout-card reveal reveal-delay-2" role="listitem">
+          <div class="atout-icon" aria-hidden="true">🔭</div>
+          <div class="atout-name">Vue panoramique</div>
+        </div>
+        <div class="atout-card reveal" role="listitem">
+          <div class="atout-icon" aria-hidden="true">🌙</div>
+          <div class="atout-name">Cuisine halal</div>
+        </div>
+        <div class="atout-card reveal reveal-delay-1" role="listitem">
+          <div class="atout-icon" aria-hidden="true">🥦</div>
+          <div class="atout-name">Options végétariennes</div>
+        </div>
+        <div class="atout-card reveal reveal-delay-2" role="listitem">
+          <div class="atout-icon" aria-hidden="true">🌱</div>
+          <div class="atout-name">Options vegan</div>
+        </div>
+        <div class="atout-card reveal" role="listitem">
+          <div class="atout-icon" aria-hidden="true">🍹</div>
+          <div class="atout-name">Cocktails</div>
+        </div>
+        <div class="atout-card reveal reveal-delay-1" role="listitem">
+          <div class="atout-icon" aria-hidden="true">🍷</div>
+          <div class="atout-name">Vins</div>
+        </div>
+        <div class="atout-card reveal reveal-delay-2" role="listitem">
+          <div class="atout-icon" aria-hidden="true">🍺</div>
+          <div class="atout-name">Bières</div>
+        </div>
+        <div class="atout-card reveal" role="listitem">
+          <div class="atout-icon" aria-hidden="true">☕</div>
+          <div class="atout-name">Café</div>
+        </div>
+        <div class="atout-card reveal reveal-delay-1" role="listitem">
+          <div class="atout-icon" aria-hidden="true">🍵</div>
+          <div class="atout-name">Grand choix de thés</div>
+        </div>
+        <div class="atout-card reveal reveal-delay-2" role="listitem">
+          <div class="atout-icon" aria-hidden="true">🍱</div>
+          <div class="atout-name">Service traiteur</div>
+        </div>
+        <div class="atout-card reveal" role="listitem">
+          <div class="atout-icon" aria-hidden="true">🍽️</div>
+          <div class="atout-name">Repas sur place</div>
+        </div>
+        <div class="atout-card reveal reveal-delay-1" role="listitem">
+          <div class="atout-icon" aria-hidden="true">📦</div>
+          <div class="atout-name">À emporter</div>
+        </div>
+        <div class="atout-card reveal reveal-delay-2" role="listitem">
+          <div class="atout-icon" aria-hidden="true">🛎️</div>
+          <div class="atout-name">Service à table</div>
+        </div>
+        <div class="atout-card reveal" role="listitem">
+          <div class="atout-icon" aria-hidden="true">🥞</div>
+          <div class="atout-name">Brunch</div>
+        </div>
+        <div class="atout-card reveal reveal-delay-1" role="listitem">
+          <div class="atout-icon" aria-hidden="true">🌅</div>
+          <div class="atout-name">Petit-déjeuner</div>
+        </div>
+        <div class="atout-card reveal reveal-delay-2" role="listitem">
+          <div class="atout-icon" aria-hidden="true">☀️</div>
+          <div class="atout-name">Déjeuner</div>
+        </div>
+        <div class="atout-card reveal" role="listitem">
+          <div class="atout-icon" aria-hidden="true">🌙</div>
+          <div class="atout-name">Dîner</div>
+        </div>
+        <div class="atout-card reveal reveal-delay-1" role="listitem">
+          <div class="atout-icon" aria-hidden="true">🌃</div>
+          <div class="atout-name">Repas tardifs</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" aria-labelledby="exp-title">
+    <div class="exp-wrapper">
+      <div class="exp-visual" role="img" aria-label="Ambiance chaleureuse et romantique du restaurant Chez Fatou">
+        <div class="exp-visual-text reveal">
+          <h2>Une atmosphère<em>unique</em></h2>
+          <p>Entre l'air salin de l'Atlantique et la chaleur de l'accueil sénégalais, chaque visite est une invitation à s'évader.</p>
+        </div>
+      </div>
+      <div class="exp-content">
+        <div>
+          <p class="section-eyebrow reveal">L'ambiance</p>
+          <h2 class="section-title reveal reveal-delay-1" id="exp-title">
+            Chaque repas,<em>une évasion</em>
+          </h2>
+        </div>
+        <div class="exp-tags reveal reveal-delay-2" role="list" aria-label="Ambiances proposées">
+          <span class="exp-tag" role="listitem">Ambiance cosy</span>
+          <span class="exp-tag" role="listitem">Romantique</span>
+          <span class="exp-tag" role="listitem">Calme</span>
+          <span class="exp-tag" role="listitem">Branchée</span>
+          <span class="exp-tag" role="listitem">Haut de gamme</span>
+          <span class="exp-tag" role="listitem">Décontractée</span>
+          <span class="exp-tag" role="listitem">Chaleureuse</span>
+        </div>
+        <div class="exp-divider reveal"></div>
+        <div class="exp-clientele reveal reveal-delay-3">
+          <h3>Idéal pour…</h3>
+          <div class="exp-tags" role="list" aria-label="Types de clientèle bienvenus">
+            <span class="exp-tag" role="listitem">👨‍👩‍👧 Familles</span>
+            <span class="exp-tag" role="listitem">✈️ Touristes</span>
+            <span class="exp-tag" role="listitem">👥 Groupes</span>
+            <span class="exp-tag" role="listitem">🎓 Étudiants</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACCESSIBILITY -->
+  <section id="accessibility" aria-labelledby="access-title">
+    <div class="container">
+      <div class="access-grid">
+        <div>
+          <p class="section-eyebrow reveal">Accessibilité</p>
+          <h2 class="section-title reveal reveal-delay-1" id="access-title">
+            Ouvert à<em>tous</em>
+          </h2>
+          <p class="about-body reveal reveal-delay-2" style="margin-top:1rem;">
+            Chez Fatou est pensé pour accueillir tous ses hôtes dans les meilleures conditions, quels que soient leurs besoins.
+          </p>
+          <div class="access-list" role="list">
+            <div class="access-item reveal" role="listitem">
+              <span class="access-item-icon" aria-hidden="true">♿</span>
+              <span class="access-item-text">Entrée PMR accessible</span>
+            </div>
+            <div class="access-item reveal reveal-delay-1" role="listitem">
+              <span class="access-item-icon" aria-hidden="true">🚻</span>
+              <span class="access-item-text">Toilettes accessibles PMR</span>
+            </div>
+            <div class="access-item reveal reveal-delay-2" role="listitem">
+              <span class="access-item-icon" aria-hidden="true">🅿️</span>
+              <span class="access-item-text">Parking accessible PMR</span>
+            </div>
+            <div class="access-item reveal reveal-delay-3" role="listitem">
+              <span class="access-item-icon" aria-hidden="true">🪑</span>
+              <span class="access-item-text">Places accessibles PMR</span>
+            </div>
+            <div class="access-item reveal" role="listitem">
+              <span class="access-item-icon" aria-hidden="true">👶</span>
+              <span class="access-item-text">Chaises hautes disponibles</span>
+            </div>
+            <div class="access-item reveal reveal-delay-1" role="listitem">
+              <span class="access-item-icon" aria-hidden="true">📋</span>
+              <span class="access-item-text">Menu enfant</span>
+            </div>
+            <div class="access-item reveal reveal-delay-2" role="listitem">
+              <span class="access-item-icon" aria-hidden="true">🍼</span>
+              <span class="access-item-text">Table à langer</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="section-eyebrow reveal" style="visibility:hidden">Parking</p>
+          <h2 class="section-title reveal reveal-delay-1" style="visibility:hidden">Parking</h2>
+          <p class="about-body reveal reveal-delay-2" style="margin-top:1rem; visibility:hidden">.</p>
+          <div class="parking-box reveal reveal-delay-2">
+            <h3>Parking & Stationnement</h3>
+            <div class="parking-items" role="list">
+              <div class="parking-item" role="listitem">
+                <span class="parking-check" aria-hidden="true">✓</span>
+                <span>Parking gratuit sur place</span>
+              </div>
+              <div class="parking-item" role="listitem">
+                <span class="parking-check" aria-hidden="true">✓</span>
+                <span>Places gratuites dans la rue</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESERVATIONS -->
+  <section id="reservations" aria-labelledby="resa-title">
+    <div class="container">
+      <p class="section-eyebrow reveal">Réservations</p>
+      <h2 class="section-title reveal reveal-delay-1" id="resa-title">
+        Réservez votre<em>moment</em>
+      </h2>
+      <p class="resa-sub reveal reveal-delay-2">
+        Réservation recommandée pour garantir votre table avec la meilleure vue sur l'océan. Nous accueillons vos groupes et événements privés.
+      </p>
+      <div class="resa-meals reveal reveal-delay-3" role="list" aria-label="Services disponibles à la réservation">
+        <span class="resa-meal" role="listitem">Brunch</span>
+        <span class="resa-meal" role="listitem">Déjeuner</span>
+        <span class="resa-meal" role="listitem">Dîner</span>
+        <span class="resa-meal" role="listitem">Petit-déjeuner</span>
+        <span class="resa-meal" role="listitem">Repas tardifs</span>
+      </div>
+      <div class="reveal reveal-delay-4">
+        <a href="tel:+221338209238" class="btn-primary" style="font-size:.9rem; padding:1rem 2.8rem;">
+          📞 &nbsp; Appeler pour réserver &nbsp; — &nbsp; +221 33 820 92 38
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="reviews" aria-labelledby="reviews-title">
+    <div class="container">
+      <div class="reviews-header">
+        <div>
+          <p class="section-eyebrow reveal">Témoignages</p>
+          <h2 class="section-title reveal reveal-delay-1" id="reviews-title">
+            Ce que disent<em>nos hôtes</em>
+          </h2>
+        </div>
+        <div class="review-score reveal">
+          <div class="review-score-num" aria-label="Note de 4 sur 5">4.0</div>
+          <div class="review-stars" aria-hidden="true">★★★★☆</div>
+          <div class="review-count">2 239 avis Google</div>
+        </div>
+      </div>
+
+      <div class="reviews-grid">
+        <article class="review-card reveal">
+          <div class="review-card-stars" aria-label="5 étoiles sur 5">★★★★★</div>
+          <blockquote class="review-card-text">
+            "This is a beautiful restaurant. Great location. Gorgeous scenery. Hospitable service. Great food. This is where I experienced Senegalese Téranga hospitality and auth…"
+          </blockquote>
+          <p class="review-card-author">— Visiteur Google</p>
+        </article>
+        <article class="review-card reveal reveal-delay-1">
+          <div class="review-card-stars" aria-label="5 étoiles sur 5">★★★★★</div>
+          <blockquote class="review-card-text">
+            "Vue époustouflante sur l'océan. Le cadre est enchanteur, le service attentionné et la cuisine délicieuse. Un endroit que l'on n'oublie pas."
+          </blockquote>
+          <p class="review-card-author">— Client satisfait</p>
+        </article>
+        <article class="review-card reveal reveal-delay-2">
+          <div class="review-card-stars" aria-label="4 étoiles sur 5">★★★★☆</div>
+          <blockquote class="review-card-text">
+            "Sea view extraordinary. The terrace facing the Atlantic is simply magical, especially at sunset. Highly recommended for a romantic dinner."
+          </blockquote>
+          <p class="review-card-author">— Tourist visitor</p>
+        </article>
+      </div>
+
+      <div class="review-highlights" role="list" aria-label="Points fréquemment cités">
+        <span class="review-highlight" role="listitem">🌊 Ocean views</span>
+        <span class="review-highlight" role="listitem">🌅 Sea view</span>
+        <span class="review-highlight" role="listitem">🤝 Téranga hospitality</span>
+        <span class="review-highlight" role="listitem">🍽️ Great food</span>
+        <span class="review-highlight" role="listitem">📍 Great location</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" aria-labelledby="contact-title">
+    <div class="container">
+      <div class="contact-grid">
+        <div>
+          <p class="section-eyebrow reveal">Nous trouver</p>
+          <h2 class="section-title reveal reveal-delay-1" id="contact-title">
+            Venez nous<em>rendre visite</em>
+          </h2>
+          <div class="contact-info" role="list">
+            <div class="contact-item reveal" role="listitem">
+              <div class="contact-icon-wrap" aria-hidden="true">📍</div>
+              <div class="contact-item-body">
+                <span class="contact-item-label">Adresse</span>
+                <span class="contact-item-value">Dakar, Sénégal</span>
+                <span class="contact-item-value" style="font-size:.82rem; color:var(--mist);">Code Plus : PFRH+9C Dakar</span>
+              </div>
+            </div>
+            <div class="contact-item reveal reveal-delay-1" role="listitem">
+              <div class="contact-icon-wrap" aria-hidden="true">📞</div>
+              <div class="contact-item-body">
+                <span class="contact-item-label">Téléphone</span>
+                <a href="tel:+221338209238" class="contact-item-value">+221 33 820 92 38</a>
+              </div>
+            </div>
+            <div class="contact-item reveal reveal-delay-2" role="listitem">
+              <div class="contact-icon-wrap" aria-hidden="true">🍽️</div>
+              <div class="contact-item-body">
+                <span class="contact-item-label">Établissement</span>
+                <span class="contact-item-value">Chez Fatou</span>
+              </div>
+            </div>
+          </div>
+          <div class="reveal reveal-delay-3" style="margin-top:1.5rem;">
+            <a
+              href="https://www.facebook.com/Chez-Fatou-94184506"
+              class="facebook-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Suivez Chez Fatou sur Facebook (ouvre dans un nouvel onglet)"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              Suivre sur Facebook
+            </a>
+          </div>
+        </div>
+        <div class="reveal reveal-delay-2">
+          <div class="map-placeholder">
+            <div class="map-overlay" role="img" aria-label="Carte de localisation de Chez Fatou à Dakar">
+              <div class="map-badge">
+                <div class="map-badge-title">Chez Fatou</div>
+                <div class="map-badge-addr">Dakar, Sénégal</div>
+                <div class="map-badge-plus">📍 PFRH+9C Dakar</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer role="contentinfo">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">Chez Fatou</span>
+        <p class="footer-tagline">Restaurant de plage · Dakar, Sénégal</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="tel:+221338209238">+221 33 820 92 38</a>
+        <p>Dakar, Sénégal</p>
+        <p style="font-size:.75rem; color:rgba(255,255,255,.35); margin-top:.5rem;">PFRH+9C Dakar</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <p>Petit-déjeuner · Brunch</p>
+        <p>Déjeuner · Dîner</p>
+        <p>Service traiteur</p>
+        <p>Sur place · À emporter</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <a href="#about">À propos</a>
+        <a href="#atouts">Nos services</a>
+        <a href="#experience">Ambiance</a>
+        <a href="#reviews">Avis clients</a>
+        <a href="#reservations">Réservations</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copyright">
+        © 2025 Chez Fatou — Tous droits réservés &nbsp;
+        <span class="footer-star">★</span>
+        &nbsp; 4.0/5 · 2 239 avis Google
+      </p>
+      <p class="footer-copyright">Dakar, Sénégal</p>
+    </div>
+  </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button id="back-top" aria-label="Retour en haut de page" title="Retour en haut">↑</button>
+
+<script>
+  // ─── NAV SCROLL ───
+  const nav = document.getElementById('nav');
+  function onScroll() {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+    document.getElementById('back-top').classList.toggle('visible', window.scrollY > 400);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // ─── BURGER ───
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  burger.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // ─── BACK TO TOP ───
+  document.getElementById('back-top').addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ─── REVEAL ON SCROLL ───
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Hero reveals immediately
+  document.querySelectorAll('#hero .reveal').forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), 300 + i * 150);
+  });
+
+  // ─── SMOOTH SCROLL ───
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', e => {
+      const target = document.querySelector(anchor.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
